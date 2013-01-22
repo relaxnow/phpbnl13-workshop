@@ -1,0 +1,16 @@
+<VirtualHost *:80>
+        ServerName      phpbnl13-workshop.relaxnow.nl
+        DocumentRoot    /vagrant/web
+
+    <Directory /vagrant/web/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+        <IfModule mod_rewrite.c>
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ /app.php [QSA,L]
+        </IfModule>
+    </Directory>
+</VirtualHost>
