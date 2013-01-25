@@ -6,18 +6,25 @@
 
     <services>
 
+        <service id="acme_dic.rates.adapter.client" class="Guzzle\Http\Client" />
+
         <service id="acme_dic.rates.adapter"
-                 class="Acme\Bundle\DicWorkshopBundle\Adapter\MockAdapter"
-                 public="false" />
+                 class="Acme\Bundle\DicWorkshopBundle\Adapter\GuzzleAdapter"
+                 public="false">
+            <argument type="service" id="acme_dic.rates.adapter.client" />
+            <argument>%acme_dic.rates.adapter.endpoint%</argument>
+        </service>
 
         <service id="acme_dic.rates.parser"
                  class="Acme\Bundle\DicWorkshopBundle\Parser\XmlParser"
                  public="false" />
 
-        <service id="acme_dic.rates" class="Acme\Bundle\DicWorkshopBundle\Ecb\ExchangeRates">
+        <service id="acme_dic.rates" class="Acme\Bundle\DicWorkshopBundle\Ecb\ExchangeRates" public="false">
             <argument type="service" id="acme_dic.rates.adapter" />
             <argument type="service" id="acme_dic.rates.parser" />
         </service>
+
+        <service id="rates" alias="acme_dic.rates"/>
 
     </services>
 

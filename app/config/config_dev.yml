@@ -21,3 +21,6 @@ monolog:
 
 assetic:
     use_controller: true
+
+acme_dic_workshop:
+    endpoint: http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml

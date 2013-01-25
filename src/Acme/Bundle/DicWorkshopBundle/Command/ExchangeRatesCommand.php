@@ -29,9 +29,7 @@ class ExchangeRatesCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $adapter = new MockAdapter();
-        $parser = new XmlParser();
-        $rates = new ExchangeRates($adapter, $parser);
+        $rates = $this->getContainer()->get('rates');
 
         foreach ($rates->getRates() as $currency => $rate) {
             $output->writeln(sprintf('<info>%s</info> %s', $currency, $rate));

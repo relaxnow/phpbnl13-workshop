@@ -20,7 +20,21 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('acme_dic_workshop');
 
-        //
+        $rootNode
+            ->children()
+                ->scalarNode('endpoint')
+                    ->info('Defines the webservice endpoint.')
+                    ->defaultValue('http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml')
+                    ->cannotBeEmpty()
+                    ->validate()
+                        ->ifTrue(function($value) {
+                            return !filter_var($value, \FILTER_VALIDATE_URL);
+                        })
+                        ->thenInvalid('The endpoint must be a valid URL.')
+                    ->end()
+                ->end()
+            ->end()
+        ;
 
         return $treeBuilder;
     }

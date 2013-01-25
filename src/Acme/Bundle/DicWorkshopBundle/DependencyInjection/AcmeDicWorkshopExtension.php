@@ -22,6 +22,8 @@ class AcmeDicWorkshopExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('acme_dic.rates.adapter.endpoint', $config['endpoint']);
+
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('exchangerates.xml');
     }
