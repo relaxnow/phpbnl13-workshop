@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('acme_dic_workshop');
 
-        //
+        $rootNode->
 
         return $treeBuilder;
     }

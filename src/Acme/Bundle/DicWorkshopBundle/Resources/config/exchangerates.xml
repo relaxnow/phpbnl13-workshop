@@ -4,6 +4,27 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
+    <services>
+        <!-- Public -->
+        <service id="rates" alias="acme_dic.rates" />
+        <service id="acme_dic.rates" class="Acme\Bundle\DicWorkshopBundle\Ecb\ExchangeRates">
+            <argument type="service" id="acme_dic.rates.adapter" />
+            <argument type="service" id="acme_dic.rates.parser" />
+        </service>
 
+        <!-- Private -->
+        <service id="acme_dic.rates.adapter.client" class="Guzzle\Http\Client" />
+        <service
+                id="acme_dic.rates.adapter"
+                class="Acme\Bundle\DicWorkshopBundle\Adapter\GuzzleAdapter"
+                public="false">
+            <argument type="service" id="acme_dic.rates.adapter.client" />
+            <argument>http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml</argument>
+        </service>
+        <service
+                id="acme_dic.rates.parser"
+                class="Acme\Bundle\DicWorkshopBundle\Parser\XmlParser"
+                public="false"/>
+    </services>
 
 </container>
