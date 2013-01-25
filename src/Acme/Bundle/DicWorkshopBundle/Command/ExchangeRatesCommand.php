@@ -3,6 +3,9 @@
 namespace Acme\Bundle\DicWorkshopBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Acme\Bundle\DicWorkshopBundle\Ecb\ExchangeRates;
+use Acme\Bundle\DicWorkshopBundle\Parser\XmlParser;
+use Acme\Bundle\DicWorkshopBundle\Adapter\MockAdapter;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +29,12 @@ class ExchangeRatesCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('<info>Nothing to see... yet.</info>');
+        $adapter = new MockAdapter();
+        $parser = new XmlParser();
+        $rates = new ExchangeRates($adapter, $parser);
+
+        foreach ($rates->getRates() as $currency => $rate) {
+            $output->writeln(sprintf('<info>%s</info> %s', $currency, $rate));
+        }
     }
 }
